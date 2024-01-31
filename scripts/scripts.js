@@ -13,7 +13,6 @@ function calcShipping(location, currency) {
     return null;
   }
 }
-//testing
 let location = 'RSA';
 let currency = null;
 
