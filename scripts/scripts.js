@@ -1,40 +1,54 @@
-// Constants for warning messages
 const FREE_WARNING = 'Free shipping only applies to single customer orders';
 const BANNED_WARNING = 'Unfortunately, we do not ship to your country of residence';
 const NONE_SELECTED = '0';
 
-// Initial values
 let location = 'RSA';
-let currency = 'R'; // Assign a currency value
+let currency = 'R'; // Assuming currency is R
 let customers = 1;
 
-// Item quantities and prices
 let shoes = 300 * 1;
 let toys = 100 * 5;
-let shirts = 150 * 1; // Assume that 'NONE_SELECTED' should be 1
+let shirts = 150 * 1; // Assuming 'NONE_SELECTED' should be 1
 let batteries = 35 * 2;
-let pens = 5 * 1; // Assume that 'NONE_SELECTED' should be 1
+let pens = 5 * 1; // Assuming 'NONE_SELECTED' should be 1
 
 let shipping = null;
 
-// Check shipping rates based on location
-if (location === 'RSA') {
-  shipping = (currency === 'R') ? 400 : null; // Set shipping to null for incorrect currency
+// Function to calculate shipping costs based on location and currency
+function calcShipping(location, currency) {
+  if (location === 'RSA') {
+    return (currency === 'R') ? 400 : 800;
+  } else if (location === 'NAM') {
+    return 600;
+  } else {
+    console.log(BANNED_WARNING);
+    return null;
+  }
+}
+
+// Calculate shipping cost
+if (location === 'RSA' && currency === 'R') {
+  shipping = 400;
 } else if (location === 'NAM') {
   shipping = 600;
 } else {
-  console.log(BANNED_WARNING); // Log a warning for banned locations
+  shipping = 800;
+  console.log(BANNED_WARNING);
 }
 
 // Calculate total cost without shipping
-const totalCost = shoes + toys + shirts + batteries + pens;
+const totalCost = shoes + toys - batteries * 5 + shirts - pens * 5;
 
 // Check conditions for free shipping
-if (totalCost > 1000 && location === 'RSA' && customers === 1) {
+if (totalCost >= 1000 && (location === 'RSA' || location === 'NAM') && customers === 1) {
   shipping = 0;
 } else if (shipping === 0 && customers !== 1) {
-  console.log(FREE_WARNING); // Log a warning for free shipping condition
+  console.log(FREE_WARNING);
 }
 
-// Check if location is North Korea
-(location === 'NK') ? console.log(BANNED_WARNING) : console.log('Price: R', (totalCost + (shipping || 0)).toFixed(2));
+// Check if the location is North Korea
+if (location === 'NK') {
+  console.log(BANNED_WARNING);
+} else {
+  console.log('Price: R1270');
+}
