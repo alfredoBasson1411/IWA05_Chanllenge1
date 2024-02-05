@@ -1,25 +1,11 @@
+// Constants for warning messages
 const FREE_WARNING = 'Free shipping only applies to single customer orders';
 const BANNED_WARNING = 'Unfortunately, we do not ship to your country of residence';
 const NONE_SELECTED = '0';
 
-// Function to calculate shipping costs based on location and currency
-function calcShipping(location, currency) {
-  if (location === 'RSA') {
-    // Return 400 if currency is 'R', otherwise 800
-    return (currency === 'R') ? 400 : 800;
-  } else if (location === 'NAM') {
-    // Return 600 for Namibia
-    return 600;
-  } else {
-    // Log a warning and return null for banned locations
-    console.log(BANNED_WARNING);
-    return null;
-  }
-}
-
-// Initial values for location, currency, and number of customers
+// Initial values
 let location = 'RSA';
-let currency = null;
+let currency = 'R'; // Assign a currency value
 let customers = 1;
 
 // Item quantities and prices
@@ -31,25 +17,24 @@ let pens = 5 * 1; // Assume that 'NONE_SELECTED' should be 1
 
 let shipping = null;
 
-// Calculating shipping cost
-shipping = calcShipping(location, currency);
-
-// Checking if the total cost without shipping is equal to or more than 1000
-if (shoes + batteries + pens + shirts > 1000) {
-  // Checking if the user is in Namibia and the number of customers is less than 2
-  if (location === 'NAM' && customers < 2) {
-    // Checking if the user is in RSA
-    if (location === 'RSA') {
-      // Set shipping to 0 for free shipping in RSA
-      shipping = 0;
-    }
-  }
+// Check shipping rates based on location
+if (location === 'RSA') {
+  shipping = (currency === 'R') ? 400 : null; // Set shipping to null for incorrect currency
+} else if (location === 'NAM') {
+  shipping = 600;
+} else {
+  console.log(BANNED_WARNING); // Log a warning for banned locations
 }
 
-// Checking if the shipping is free and there is more than 1 customer
-if (shipping === 0 && customers !== 1) {
-  console.log(FREE_WARNING);
+// Calculate total cost without shipping
+const totalCost = shoes + toys + shirts + batteries + pens;
+
+// Check conditions for free shipping
+if (totalCost > 1000 && location === 'RSA' && customers === 1) {
+  shipping = 0;
+} else if (shipping === 0 && customers !== 1) {
+  console.log(FREE_WARNING); // Log a warning for free shipping condition
 }
 
-// Checking if the location is North Korea
-(location === 'NK') ? console.log(BANNED_WARNING) : console.log('Price:', currency, shoes + batteries + pens + shirts + shipping);
+// Check if location is North Korea
+(location === 'NK') ? console.log(BANNED_WARNING) : console.log('Price: R', (totalCost + (shipping || 0)).toFixed(2));
