@@ -3,7 +3,7 @@ const BANNED_WARNING = 'Unfortunately, we do not ship to your country of residen
 const NONE_SELECTED = '0';
 
 let location = 'RSA';
-let currency = 'R'; // Assuming currency is R
+let currency = '$'; // Updated currency for NAM
 let customers = 1;
 
 let shoes = 300 * 1;
@@ -50,5 +50,5 @@ if (totalCost >= 1000 && (location === 'RSA' || location === 'NAM') && customers
 if (location === 'NK') {
   console.log(BANNED_WARNING);
 } else {
-  console.log('Price: R1270');
+  console.log('Price: R1270.00');
 }
